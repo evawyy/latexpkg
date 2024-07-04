@@ -1,0 +1,51 @@
+\ProvidesPackage{bwenv}
+\RequirePackage{amsthm,enumitem,float,color,hyperref,xcolor,listings}
+\definecolor{bw__bgclr}{rgb}{0.95,0.95,0.95}
+\lstdefinestyle{Lua}{
+  backgroundcolor=\color{bw__bgclr},
+  language=[5.1]Lua,
+  basicstyle=\footnotesize,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{magenta},
+  stringstyle=\color{blue},
+  commentstyle=\color{gray},
+  numbers=left,
+  numbersep=5pt,
+  tabsize=2,
+  breaklines=true
+}
+%%% Environments definition
+%% Problem
+\newcounter{problem}
+\newcommand{\bw@Pro@blem}{\begin{tikzpicture}[baseline]%
+    \node at (-0.02em,0.3em) {$\mathbb{P}$};%
+    \node[scale=0.7] at (0.2em,-0.0em) {R};%
+    \node[scale=0.7] at (0.6em,0.4em) {O};%
+    \node[scale=0.8] at (1.05em,0.25em) {B};%
+    \node at (1.55em,0.3em) {L};%
+    \node[scale=0.7] at (1.75em,0.45em) {E};%
+    \node at (2.35em,0.3em) {M};%
+  \end{tikzpicture}%
+}
+\renewcommand{\theproblem}{\Roman{problem}}
+\newenvironment{problem}{\refstepcounter{problem}\par\noindent\color{blue}\bw@Pro@blem\theproblem}{}
+%% Solution
+\newcommand\bw@Solu@tion{\begin{tikzpicture}[baseline]%
+    \node at (-0.04em,0.3em) {$\mathbb{S}$};%
+    \node[scale=0.7] at (0.35em,0.4em) {O};%
+    \node at (0.7em,0.3em) {\textit{L}};%
+    \node[scale=0.7] at (0.95em,0.4em) {U};%
+    \node[scale=1.1] at (1.19em,0.32em){T};%
+    \node[scale=0.85] at (1.4em,0.24em){I};%
+    \node at (1.9em,0.32em){$\mathcal{O}$};%
+    \node[scale=0.75] at (2.3em,0.21em){\texttt{N}};%
+  \end{tikzpicture}}
+\newenvironment{solution}{\begin{proof}[\bw@Solu@tion]}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{remark}{Remark}
+
+\newtheorem{example}{example}
+
+\newtheorem{definition}{Definition}

@@ -1,0 +1,52 @@
+\ProvidesPackage{bwprefixlabel}
+\RequirePackage{subfiles,currfile}
+\def\@label@prefix{\currfilebase}
+
+\AtBeginDocument{%
+  \let\abslabel\label
+  \let\absref\ref
+  \let\abseqref\eqref
+  \renewcommand{\ref}[1]{\absref{\expandafter\@label@prefix!#1}}
+  \renewcommand{\eqref}[1]{\abseqref{\expandafter\@label@prefix!#1}}
+  \renewcommand{\label}[1]{\abslabel{\expandafter\@label@prefix!#1}}
+}
+
+\@ifpackageloaded{subfig}{%
+  \def\sf@@sub@label#1{%
+    \@bsphack
+    \sf@oldlabel{#1}%
+    \ifhyperrefloaded
+      \begingroup
+      \edef\@currentlabstr{%
+        \expandafter\strip@prefix\meaning\@currentlabelname}%
+      \protected@write\@auxout{}{%
+        \string\newlabel{\expandafter\@label@prefix!sub@#1}{%
+          {\caption@lstfmt
+              {\@nameuse{p@sub\@captype}}%
+              {\@nameuse{thesub\@captype}}}%
+            {\caption@subreffmt
+              {\@nameuse{p@sub\@captype}}%
+              {\@nameuse{thesub\@captype}}%
+              {\the\value{\@captype}}%
+              {\the\value{sub\@captype}}}%
+            {\expandafter\strip@period\@currentlabelname\relax.\relax\@@@}%
+            {\@currentHref}%
+            {}}}%
+      \endgroup
+    \else
+      \protected@write\@auxout{}{%
+        \string\newlabel{\expandafter\@label@prefix!sub@#1}{%
+          {\caption@lstfmt
+              {\@nameuse{p@sub\@captype}}%
+              {\@nameuse{thesub\@captype}}}%
+            {\caption@subreffmt
+              {\@nameuse{p@sub\@captype}}%
+              {\@nameuse{thesub\@captype}}%
+              {\the\value{\@captype}}%
+              {\the\value{sub\@captype}}}}}%
+    \fi
+    \@esphack}
+  \def\sf@subref#1{\ref{\expandafter\@label@prefix!sub@#1}}
+  \def\sf@@subref#1{\pageref{\expandafter\@label@prefix!sub@#1}}
+}{%
+}
